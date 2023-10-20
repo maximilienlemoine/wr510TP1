@@ -5,6 +5,56 @@
     <title>Interface</title>
 </head>
 <body>
+<h1>PlugS</h1>
 
+<div>
+    <button id="on" onclick="turn('on')">ON</button>
+    <button id="off" onclick="turn('off')">OFF</button>
+</div>
+<div>
+    <div>IP : <span id="ip"></span></div>
+    <div>Power : <span id="power"></span></div>
+    <div>Temps utilisation : <span id="uptime"></span> secondes</div>
+    <div>Température : <span id="temp"></span> degrès</div>
+</div>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", async function() {
+        let requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("http://192.168.1.100/status", requestOptions)
+            .then(response => response.json())
+            .then(response => {
+                document.getElementById("ip").innerHTML = response.wifi_sta.ip;
+                document.getElementById("power").innerHTML = (response.wifi_sta.connected) ? "ON" : "OFF";
+                document.getElementById("uptime").innerHTML = response.uptime;
+                document.getElementById("temp").innerHTML = response.temperature
+            })
+            .catch(error => console.log('error', error));
+    });
+
+    function turn(param) {
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let raw = JSON.stringify({
+            "turn": `"${param}"`
+        });
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://192.168.1.100/relay/0", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
+</script>
 </html>
