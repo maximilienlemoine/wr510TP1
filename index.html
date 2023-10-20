@@ -20,40 +20,75 @@
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", async function() {
+        // EN LOCAL
+        // let requestOptions = {
+        //     method: 'GET',
+        //     redirect: 'follow'
+        // };
+        //
+        // fetch("http://192.168.1.100/status", requestOptions)
+        //     .then(response => response.json())
+        //     .then(response => {
+        //         document.getElementById("ip").innerHTML = response.wifi_sta.ip;
+        //         document.getElementById("power").innerHTML = (response.wifi_sta.connected) ? "ON" : "OFF";
+        //         document.getElementById("uptime").innerHTML = response.uptime;
+        //         document.getElementById("temp").innerHTML = response.temperature
+        //     })
+        //     .catch(error => console.log('error', error));
+
+        // EN CLOUD
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+        let urlencoded = new URLSearchParams();
+        urlencoded.append("id", "80646F827174");
+        urlencoded.append("auth_key", "MWRmYzM2dWlkE62C6C4C76F817CE0A3D2902F5B5D4C115E49B28CF8539114D9246505DE5D368D560D06020A92480");
+
         let requestOptions = {
-            method: 'GET',
+            method: 'POST',
+            headers: myHeaders,
+            body: urlencoded,
             redirect: 'follow'
         };
 
-        fetch("http://192.168.1.100/status", requestOptions)
+        fetch("https://shelly-86-eu.shelly.cloud/device/status", requestOptions)
             .then(response => response.json())
             .then(response => {
-                document.getElementById("ip").innerHTML = response.wifi_sta.ip;
-                document.getElementById("power").innerHTML = (response.wifi_sta.connected) ? "ON" : "OFF";
-                document.getElementById("uptime").innerHTML = response.uptime;
-                document.getElementById("temp").innerHTML = response.temperature
+                console.log(response.data)
+                document.getElementById("ip").innerHTML = response.data.device_status.wifi_sta.ip;
+                document.getElementById("power").innerHTML = (response.data.device_status.wifi_sta.connected) ? "ON" : "OFF";
+                document.getElementById("uptime").innerHTML = response.data.device_status.uptime;
+                document.getElementById("temp").innerHTML = response.data.device_status.temperature
             })
             .catch(error => console.log('error', error));
     });
 
     function turn(param) {
+        // EN LOCAL
+        // let requestOptions = {
+        //     method: 'GET',
+        //     redirect: 'follow'
+        // };
+        //
+        // fetch(`http://192.168.1.100/relay/0?turn=${param}`, requestOptions)
+        //     .then(response => response.text())
+        //     .catch(error => console.log('error', error));
+
+        // EN CLOUD
         let myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-        let raw = JSON.stringify({
-            "turn": `"${param}"`
-        });
+        let urlencoded = new URLSearchParams();
+        urlencoded.append("id", "80646F827174");
+        urlencoded.append("auth_key", "MWRmYzM2dWlkE62C6C4C76F817CE0A3D2902F5B5D4C115E49B28CF8539114D9246505DE5D368D560D06020A92480");
 
-        let requestOptions = {
+        fetch(`https://shelly-86-eu.shelly.cloud/device/relay/control?turn=${param}`, {
             method: 'POST',
             headers: myHeaders,
-            body: raw,
+            body: urlencoded,
             redirect: 'follow'
-        };
-
-        fetch("http://192.168.1.100/relay/0", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
+        })
+            .then(response => response.json())
             .catch(error => console.log('error', error));
     }
 </script>
