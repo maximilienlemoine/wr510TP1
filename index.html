@@ -41,8 +41,8 @@
         myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
         let urlencoded = new URLSearchParams();
-        urlencoded.append("id", "80646F827174");
-        urlencoded.append("auth_key", "MWRmYzM2dWlkE62C6C4C76F817CE0A3D2902F5B5D4C115E49B28CF8539114D9246505DE5D368D560D06020A92480");
+        urlencoded.append("id", "083a8dc15f4e");
+        urlencoded.append("auth_key", "MWRmYzIwdWlk918F3865DCF63FC2AA96FA5E24242EBB453874FBF565064E2BD7C4FA6B926B800F59AA80F16959DF");
 
         let requestOptions = {
             method: 'POST',
@@ -51,7 +51,7 @@
             redirect: 'follow'
         };
 
-        fetch("https://shelly-86-eu.shelly.cloud/device/status", requestOptions)
+        fetch("https://shelly-85-eu.shelly.cloud/device/status", requestOptions)
             .then(response => response.json())
             .then(response => {
                 console.log(response.data)
@@ -79,10 +79,10 @@
         myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
         let urlencoded = new URLSearchParams();
-        urlencoded.append("id", "80646F827174");
-        urlencoded.append("auth_key", "MWRmYzM2dWlkE62C6C4C76F817CE0A3D2902F5B5D4C115E49B28CF8539114D9246505DE5D368D560D06020A92480");
+        urlencoded.append("id", "083a8dc15f4e");
+        urlencoded.append("auth_key", "MWRmYzIwdWlk918F3865DCF63FC2AA96FA5E24242EBB453874FBF565064E2BD7C4FA6B926B800F59AA80F16959DF");
 
-        fetch(`https://shelly-86-eu.shelly.cloud/device/relay/control?turn=${param}`, {
+        fetch(`https://shelly-85-eu.shelly.cloud/device/relay/control?turn=${param}`, {
             method: 'POST',
             headers: myHeaders,
             body: urlencoded,
